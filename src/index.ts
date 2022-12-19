@@ -18,6 +18,3 @@ if(require.main === module) {
         console.log(`Server is starting on port: ${PORT}`)
     })
 }
-
-
-//mongo mongodb+srv://admin:<password>@cluster0.ufsqnle.mongodb.net/?retryWrites=true&w=majority
