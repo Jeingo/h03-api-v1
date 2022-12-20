@@ -13,7 +13,8 @@ export const blogsRepository = {
             id: uuid(),
             name: name,
             description: desc,
-            websiteUrl: url
+            websiteUrl: url,
+            createdAt: new Date().toISOString()
         }
         const res = await blogsCollection.insertOne(createdBlog)
         return createdBlog

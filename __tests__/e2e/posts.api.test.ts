@@ -106,7 +106,8 @@ describe('/posts', () => {
         expect(createdPost).toEqual({
             id: expect.any(String),
             ...correctPost,
-            blogName: createdBlog.name
+            blogName: createdBlog.name,
+            createdAt: expect.any(String)
         })
     })
     it(`GET /posts/id: should return post by id`, async () => {
@@ -116,7 +117,8 @@ describe('/posts', () => {
         expect(response.body).toEqual({
             id: expect.any(String),
             ...createdPost,
-            blogName: createdBlog.name
+            blogName: createdBlog.name,
+            createdAt: expect.any(String)
         })
     })
     it(`PUT /posts/id: shouldn't update post without authorization`, async () => {
@@ -145,7 +147,8 @@ describe('/posts', () => {
         expect(response.body).toEqual({
             id: expect.any(String),
             ...correctNewPost,
-            blogName: createdBlog.name
+            blogName: createdBlog.name,
+            createdAt: expect.any(String)
         })
     })
     it('PUT /posts/bad-id: should return 404 for not existing post', async () => {
