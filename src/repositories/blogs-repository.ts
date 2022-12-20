@@ -1,14 +1,12 @@
-import {db} from "./db"
+import {BlogsType, client} from "./db"
 import {v4 as uuid} from 'uuid'
-
 
 export const blogsRepository = {
     async getAllBlogs() {
-        return db.blogs
+        return await client.db('service').collection<BlogsType>('blogs').find({}).toArray()
     },
     async getBlogById(id: string) {
-        const foundBlog = db.blogs.find(b => b.id === id)
-        return foundBlog
+        return await client.db('service').collection<BlogsType>('blogs').findOne({id: id})
     },
     async createBlog(name: string, desc: string, url: string) {
         const createdBlog = {
@@ -17,22 +15,16 @@ export const blogsRepository = {
             description: desc,
             websiteUrl: url
         }
-        db.blogs.push(createdBlog)
+        const res = await client.db('service').collection<BlogsType>('blogs').insertOne(createdBlog)
         return createdBlog
     },
     async updateBlog(id: string, name: string, desc: string, url: string) {
-        const foundBlog = db.blogs.find(b => b.id === id)
-        if(foundBlog) {
-            foundBlog.name = name
-            foundBlog.description = desc
-            foundBlog.websiteUrl = url
-            return foundBlog
-        }
-        return null
+        const result = await client.db('service').collection<BlogsType>('blogs')
+            .updateOne({id: id},{$set: {name: name, description: desc, websiteUrl: url}})
+        return result.matchedCount === 1
     },
     async deleteBlog(id: string) {
-        const foundBlog = db.blogs.find(b => b.id === id)
-        db.blogs = db.blogs.filter(b => b.id !== id)
-        return foundBlog
+        const result = await client.db('service').collection<BlogsType>('blogs').deleteOne({id: id})
+        return result.deletedCount === 1
     }
 }
