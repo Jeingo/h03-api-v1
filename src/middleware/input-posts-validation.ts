@@ -1,9 +1,9 @@
 import {body} from "express-validator"
-import {db} from "../repositories/db"
+import {blogsCollection} from "../repositories/db"
 
 
-const checkId = (id: string) => {
-    const foundBlog = db.blogs.find(b => b.id === id)
+const checkId = async (id: string) => {
+    const foundBlog = await blogsCollection.findOne({id: id})
     if(foundBlog) {
         return true
     } else {
