@@ -1,7 +1,7 @@
 import {db} from "./db"
 
 export const testRepository = {
-    deleteAllDB() {
+    async deleteAllDB() {
         db.blogs = []
         db.posts = []
     }

@@ -2,14 +2,14 @@ import {db, PostsType} from "./db"
 import {v4 as uuid} from 'uuid'
 
 export const postsRepository = {
-    getAllPost() {
+    async getAllPost() {
         return db.posts
     },
-    getPostById(id: string) {
+    async getPostById(id: string) {
         const foundPost = db.posts.find(p => p.id === id)
         return foundPost
     },
-    createPost(title: string, desc: string, content: string, blogId: string) {
+    async createPost(title: string, desc: string, content: string, blogId: string) {
         const foundBlog = db.blogs.find(b => b.id === blogId)
         if(foundBlog) {
             const createdPost = {
@@ -25,7 +25,7 @@ export const postsRepository = {
         }
         return null
     },
-    updatePost(id: string, title: string, desc: string, content: string, blogId: string) {
+    async updatePost(id: string, title: string, desc: string, content: string, blogId: string) {
         const foundBlog = db.blogs.find(b => b.id === blogId)
         const foundPost = db.posts.find(p => p.id === id)
         if(foundPost && foundBlog) {
@@ -38,7 +38,7 @@ export const postsRepository = {
         }
         return null
     },
-    deletePost(id: string) {
+    async deletePost(id: string) {
         const foundPost = db.posts.find(p => p.id === id)
         db.posts = db.posts.filter(p => p.id !== id)
         return foundPost

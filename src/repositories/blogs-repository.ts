@@ -3,14 +3,14 @@ import {v4 as uuid} from 'uuid'
 
 
 export const blogsRepository = {
-    getAllBlogs() {
+    async getAllBlogs() {
         return db.blogs
     },
-    getBlogById(id: string) {
+    async getBlogById(id: string) {
         const foundBlog = db.blogs.find(b => b.id === id)
         return foundBlog
     },
-    createBlog(name: string, desc: string, url: string) {
+    async createBlog(name: string, desc: string, url: string) {
         const createdBlog = {
             id: uuid(),
             name: name,
@@ -20,7 +20,7 @@ export const blogsRepository = {
         db.blogs.push(createdBlog)
         return createdBlog
     },
-    updateBlog(id: string, name: string, desc: string, url: string) {
+    async updateBlog(id: string, name: string, desc: string, url: string) {
         const foundBlog = db.blogs.find(b => b.id === id)
         if(foundBlog) {
             foundBlog.name = name
@@ -30,7 +30,7 @@ export const blogsRepository = {
         }
         return null
     },
-    deleteBlog(id: string) {
+    async deleteBlog(id: string) {
         const foundBlog = db.blogs.find(b => b.id === id)
         db.blogs = db.blogs.filter(b => b.id !== id)
         return foundBlog

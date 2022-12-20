@@ -4,7 +4,7 @@ import {testRepository} from "../repositories/test-repository";
 
 export const testRouter = Router({})
 
-testRouter.delete('/', (req: Request, res: Response) => {
-    testRepository.deleteAllDB()
+testRouter.delete('/', async (req: Request, res: Response) => {
+    await testRepository.deleteAllDB()
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204)
 })
