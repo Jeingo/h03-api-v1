@@ -37,3 +37,5 @@ export const db:{blogs: Array<BlogsType>, posts: Array<PostsType>} = {
         }
     ]
 }
+
+export const runDb = async () => {}
