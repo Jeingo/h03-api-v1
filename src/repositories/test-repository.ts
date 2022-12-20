@@ -1,8 +1,8 @@
-import {BlogsType, client, db} from "./db"
+import {blogsCollection, postsCollection} from "./db"
 
 export const testRepository = {
     async deleteAllDB() {
-        await client.db('service').collection<BlogsType>('blogs').deleteMany({})
-        db.posts = []
+        await blogsCollection.deleteMany({})
+        await postsCollection.deleteMany({})
     }
 }

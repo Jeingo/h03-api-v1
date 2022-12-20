@@ -1,12 +1,12 @@
-import {BlogsType, client} from "./db"
+import {blogsCollection} from "./db"
 import {v4 as uuid} from 'uuid'
 
 export const blogsRepository = {
     async getAllBlogs() {
-        return await client.db('service').collection<BlogsType>('blogs').find({}).toArray()
+        return await blogsCollection.find({}).toArray()
     },
     async getBlogById(id: string) {
-        return await client.db('service').collection<BlogsType>('blogs').findOne({id: id})
+        return await blogsCollection.findOne({id: id})
     },
     async createBlog(name: string, desc: string, url: string) {
         const createdBlog = {
@@ -15,16 +15,16 @@ export const blogsRepository = {
             description: desc,
             websiteUrl: url
         }
-        const res = await client.db('service').collection<BlogsType>('blogs').insertOne(createdBlog)
+        const res = await blogsCollection.insertOne(createdBlog)
         return createdBlog
     },
     async updateBlog(id: string, name: string, desc: string, url: string) {
-        const result = await client.db('service').collection<BlogsType>('blogs')
+        const result = await blogsCollection
             .updateOne({id: id},{$set: {name: name, description: desc, websiteUrl: url}})
         return result.matchedCount === 1
     },
     async deleteBlog(id: string) {
-        const result = await client.db('service').collection<BlogsType>('blogs').deleteOne({id: id})
+        const result = await blogsCollection.deleteOne({id: id})
         return result.deletedCount === 1
     }
 }
