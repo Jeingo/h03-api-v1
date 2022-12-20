@@ -1,4 +1,4 @@
-import {db, PostsType} from "./db"
+import {db} from "./db"
 import {v4 as uuid} from 'uuid'
 
 export const postsRepository = {
