@@ -16,11 +16,11 @@ app.use('/testing/all-data', testRouter)
 
 export const startApp = async () => {
     await runDb()
-    if(require.main === module) {
+    // if(require.main === module) {
         app.listen(PORT, () => {
             console.log(`Server is starting on port: ${PORT}`)
         })
-    }
+    // }
 }
 
 startApp()
