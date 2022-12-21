@@ -1,11 +1,12 @@
 import {blogsCollection, postsCollection} from "./db"
-import {ObjectId} from "mongodb";
+import {ObjectId} from "mongodb"
 
 export const postsRepository = {
     async getAllPost() {
         const tmpRes = await postsCollection.find({}).toArray()
         const res = tmpRes.map(post => ({
             id: post._id,
+            title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
@@ -22,6 +23,7 @@ export const postsRepository = {
         if(res) {
             return {
                 id: res._id,
+                title: res.title,
                 shortDescription: res.shortDescription,
                 content: res.content,
                 blogId: res.blogId,
@@ -45,6 +47,7 @@ export const postsRepository = {
             const res = await postsCollection.insertOne(createdPost)
             return {
                 id: res.insertedId.toString(),
+                title: title,
                 shortDescription: desc,
                 content: content,
                 blogId: blogId,

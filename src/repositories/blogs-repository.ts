@@ -1,4 +1,4 @@
-import {blogsCollection, BlogsType} from "./db"
+import {blogsCollection} from "./db"
 import {ObjectId} from "mongodb"
 
 export const blogsRepository = {
