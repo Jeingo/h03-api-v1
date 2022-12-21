@@ -58,7 +58,8 @@ export const postsRepository = {
         return null
     },
     async updatePost(id: string, title: string, desc: string, content: string, blogId: string) {
-        if(!ObjectId.isValid(id) && !ObjectId.isValid(blogId)) {
+        if(!ObjectId.isValid(id) || !ObjectId.isValid(blogId)) {
+            console.log('here')
             return null
         }
         const foundBlog = await blogsCollection.findOne({_id: new ObjectId(blogId)})
