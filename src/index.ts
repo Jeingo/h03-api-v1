@@ -1,7 +1,20 @@
+import express from 'express'
+import {blogsRouter} from "./routers/blogs-router"
+import {postsRouter} from "./routers/posts-router"
+import {testRouter} from "./routers/test-router"
 import {runDb} from "./repositories/db"
-import {app, PORT} from "./app"
 
-const startApp = async () => {
+export const app = express()
+
+export const PORT = process.env.PORT || 5000
+
+app.use(express.json())
+
+app.use('/blogs', blogsRouter)
+app.use('/posts', postsRouter)
+app.use('/testing/all-data', testRouter)
+
+export const startApp = async () => {
     await runDb()
     if(require.main === module) {
         app.listen(PORT, () => {
