@@ -1,4 +1,4 @@
-import {body, validationResult} from "express-validator"
+import {validationResult} from "express-validator"
 import {NextFunction, Request, Response} from "express"
 
 const baseValidationResult = validationResult.withDefaults({
@@ -13,7 +13,7 @@ const baseValidationResult = validationResult.withDefaults({
 export const inputValidation = (req: Request, res: Response, next: NextFunction) => {
     const errors = baseValidationResult(req)
     if (!errors.isEmpty()) {
-        res.status(400).json({ errorsMessages: errors.array() })
+        res.status(400).json({ errorsMessages: errors.array({onlyFirstError: true}) })
     } else {
         next()
     }
