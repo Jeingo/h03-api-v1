@@ -10,6 +10,7 @@ export const runDb = async () => {
     try {
         await client.connect()
         console.log('Connected successfully to mongo db')
+        console.log(mongoUrl)
     } catch (err) {
         console.log(`Can't connect to mongo db: ` + err)
         await client.close()
