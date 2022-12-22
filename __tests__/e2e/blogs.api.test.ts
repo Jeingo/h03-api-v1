@@ -1,21 +1,22 @@
 import request from 'supertest'
 import {app} from '../../src/app'
 import {HTTP_STATUSES} from '../../src/constats/status'
+import {BlogsTypeInput} from "../../src/models/blogs-models"
 
 
-const correctBlog = {
+const correctBlog: BlogsTypeInput = {
     name: 'Name',
     description: 'Description',
     websiteUrl: 'https://testurl.com'
 }
 
-const correctNewBlog = {
+const correctNewBlog: BlogsTypeInput = {
     name: 'NameNew',
     description: 'DescriptionNew',
     websiteUrl: 'https://testurlnew.com'
 }
 
-const incorrectBlog = {
+const incorrectBlog: BlogsTypeInput = {
     name: '',
     description: '',
     websiteUrl: ''

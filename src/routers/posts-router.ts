@@ -9,15 +9,19 @@ import {
     titleValidation
 } from "../middleware/input-posts-validation"
 import {auth} from "../authorization/basic-auth"
+import {PostsIdParams, PostsTypeInput, PostsTypeOutput} from "../models/posts-models";
+import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../models/types";
 
 export const postsRouter = Router({})
 
-postsRouter.get('/', async (req: Request, res: Response) => {
+postsRouter.get('/', async (req: Request,
+                                         res: Response<PostsTypeOutput[]>) => {
     const allPosts = await postsRepository.getAllPost()
     res.status(HTTP_STATUSES.OK_200).json(allPosts)
 })
 
-postsRouter.get('/:id', async (req: Request, res: Response) => {
+postsRouter.get('/:id', async (req: RequestWithParams<PostsIdParams>,
+                                            res: Response<PostsTypeOutput>) => {
     const foundPost = await postsRepository.getPostById(req.params.id)
 
     if(!foundPost) {
@@ -35,7 +39,8 @@ postsRouter.post('/',
     contentValidation,
     blogIdValidation,
     inputValidation,
-    async (req: Request, res: Response) => {
+    async (req: RequestWithBody<PostsTypeInput>,
+           res: Response<PostsTypeOutput| null>) => {
     const createdPost = await postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
     res.status(HTTP_STATUSES.CREATED_201).json(createdPost)
 })
@@ -46,7 +51,8 @@ postsRouter.put('/:id',
     contentValidation,
     blogIdValidation,
     inputValidation,
-    async (req: Request, res: Response) => {
+    async (req: RequestWithParamsAndBody<PostsIdParams, PostsTypeInput>,
+           res: Response) => {
     const updatedPost = await postsRepository.updatePost(req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
 
     if(!updatedPost) {
@@ -57,7 +63,7 @@ postsRouter.put('/:id',
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204)
 })
 
-postsRouter.delete('/:id', async (req: Request, res: Response) => {
+postsRouter.delete('/:id', async (req: RequestWithParams<PostsIdParams>, res: Response) => {
     const deletedPost = await postsRepository.deletePost(req.params.id)
 
     if(!deletedPost) {

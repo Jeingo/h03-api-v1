@@ -19,19 +19,3 @@ export const runDb = async () => {
 const db = client.db('service')
 export const blogsCollection = db.collection('blogs')
 export const postsCollection = db.collection('posts')
-
-export type BlogsType = {
-    name: string
-    description: string
-    websiteUrl: string
-    createdAt: string
-}
-
-export type PostsType = {
-    title: string
-    shortDescription: string
-    content: string
-    blogId: string
-    blogName: string
-    createdAt: string
-}

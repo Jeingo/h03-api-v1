@@ -1,19 +1,23 @@
 import {blogsCollection, postsCollection} from "./db"
 import {ObjectId} from "mongodb"
+import {PostsTypeOutput} from "../models/posts-models";
+
+const getOutputPost = (post: any): PostsTypeOutput => {
+    return {
+        id: post._id.toString(),
+        title: post.title,
+        shortDescription: post.shortDescription,
+        content: post.content,
+        blogId: post.blogId,
+        blogName: post.blogName,
+        createdAt: post.createdAt
+    }
+}
 
 export const postsRepository = {
     async getAllPost() {
         const tmpRes = await postsCollection.find({}).toArray()
-        const res = tmpRes.map(post => ({
-            id: post._id,
-            title: post.title,
-            shortDescription: post.shortDescription,
-            content: post.content,
-            blogId: post.blogId,
-            blogName: post.blogName,
-            createdAt: post.createdAt
-        }))
-        return res
+        return tmpRes.map(getOutputPost)
     },
     async getPostById(id: string) {
         if(!ObjectId.isValid(id)) {
@@ -21,15 +25,7 @@ export const postsRepository = {
         }
         const res = await postsCollection.findOne({_id: new ObjectId(id)})
         if(res) {
-            return {
-                id: res._id,
-                title: res.title,
-                shortDescription: res.shortDescription,
-                content: res.content,
-                blogId: res.blogId,
-                blogName: res.blogName,
-                createdAt: res.createdAt
-            }
+            return getOutputPost(res)
         }
             return null
     },

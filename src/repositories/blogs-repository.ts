@@ -1,32 +1,30 @@
 import {blogsCollection} from "./db"
 import {ObjectId} from "mongodb"
+import {BlogsTypeOutput} from "../models/blogs-models";
+
+const getOutputBlog = (blog: any): BlogsTypeOutput => {
+    return {
+        id: blog._id.toString(),
+        name: blog.name,
+        description: blog.description,
+        websiteUrl: blog.websiteUrl,
+        createdAt: blog.createdAt
+    }
+}
 
 export const blogsRepository = {
     async getAllBlogs() {
         const tmpRes = await blogsCollection.find({}).toArray()
-        const res = tmpRes.map(blog => ({
-            id: blog._id,
-            name: blog.name,
-            description: blog.description,
-            websiteUrl: blog.websiteUrl,
-            createdAt: blog.createdAt
-        }))
-        return res
-
+        return tmpRes.map(getOutputBlog)
     },
     async getBlogById(id: string) {
         if(!ObjectId.isValid(id)) {
             return null
         }
         const res = await blogsCollection.findOne({_id: new ObjectId(id)})
+
         if(res) {
-            return {
-                id: res._id,
-                name: res.name,
-                description: res.description,
-                websiteUrl: res.websiteUrl,
-                createdAt: res.createdAt
-            }
+            return getOutputBlog(res)
         }
         return null
     },
